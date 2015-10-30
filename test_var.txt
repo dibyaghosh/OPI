@@ -1,0 +1,1 @@
+[{'a': {'value': '1000', 'name': 'a'}, 'b': {'value': '100.0', 'name': 'b'}, 'c': {'value': '[10, 1000, 100.0]', 'name': 'c'}}, ['allvars'], ['inspect', 'sys']]

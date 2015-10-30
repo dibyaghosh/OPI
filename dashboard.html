@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+
+
+<body>
+<div ng-app="myApp" ng-controller="myCtrl">
+<table width="100%">
+<tr><td>
+<table class="table table-striped">
+<tr> <td> Expression </td> <td> Output </td> </tr>
+<tr ng-repeat="x in output">
+ <td> {{x[0]}} </td>
+ <td> {{x[1]}}</td>
+ </tr>
+</table>
+</td>
+<td>
+<table class="table table-striped">
+ <tr> <td> Variable </td> 
+ <td> Value </td>
+ </tr>
+ <tr ng-repeat="x in variables">
+ <td> {{x.name}} </td>
+ <td> {{x.value}}</td>
+ </tr>
+</table>
+</td>
+</tr>
+</table>
+<form role = "form" ui-keypress="{13:'submit()'}"> 
+<p>Expression: <input type="text" class="form-control input-lg" ng-model="express" autofocus> 	<button ng-click="submit()">Run</button>
+</p>
+ 	</form>
+<h4> <div ng-repeat='x in output'> >>> {{x[0]}} <br> {{x[1]}}</div>
+</div> 
+<script>
+var app = angular.module('myApp',[]);
+app.controller('myCtrl', function($scope,$http){
+$http.get("testdata.php").success(function(response) {$scope.names = response.records;});
+$scope.output = [];
+$scope.express = "";
+$scope.app
+$scope.submit = function(){
+	$http({
+    method: 'POST',
+    url: "/interpreter",
+    data: $.param({message: $scope.express}),
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success( function(response) {
+	$scope.output.push([$scope.express,response]);
+	$scope.express="";});
+	$scope.updateVars();
+};
+$scope.updateVars = function(){
+	$http.get("/variables").success(function(response) {$scope.variables = response;});
+};
+});
+</script>
+</body>
+</html>
