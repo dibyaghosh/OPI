@@ -13,11 +13,11 @@ This program requires Python 3 and the tornado package
 
 ###Install Prerequisites
 
-pip install tornado 
-git clone https://github.com/dibyaghosh/OPI.git
+* pip install tornado 
+* git clone https://github.com/dibyaghosh/OPI.git
 
 ###Running the Server
 
-python server.py
+* python server.py
 
 Navigate to localhost:8888 to access your interpreter
